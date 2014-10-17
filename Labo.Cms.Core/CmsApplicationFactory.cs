@@ -1,7 +1,34 @@
-﻿namespace Labo.Cms.Core
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CmsApplicationFactory.cs" company="Labo">
+//   The MIT License (MIT)
+//   
+//   Copyright (c) 2014 Bora Akgun
+//   
+//   Permission is hereby granted, free of charge, to any person obtaining a copy of
+//   this software and associated documentation files (the "Software"), to deal in
+//   the Software without restriction, including without limitation the rights to
+//   use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+//   the Software, and to permit persons to whom the Software is furnished to do so,
+//   subject to the following conditions:
+//   
+//   The above copyright notice and this permission notice shall be included in all
+//   copies or substantial portions of the Software.
+//   
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+//   FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+//   COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+//   IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+//   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+// <summary>
+//   Defines the CmsApplicationFactory type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Labo.Cms.Core
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Web.Mvc;
@@ -13,8 +40,18 @@
     using Labo.Common.Ioc;
     using Labo.Common.Utils;
 
+    /// <summary>
+    /// The cms application factory class.
+    /// </summary>
     public static class CmsApplicationFactory
     {
+        /// <summary>
+        /// Creates the application.
+        /// </summary>
+        /// <param name="routes">The routes.</param>
+        /// <param name="registrations">The registrations.</param>
+        /// <param name="controllerAssemblies">The controller assemblies.</param>
+        /// <returns>The cms application instance.</returns>
         public static ICmsApplication CreateApplication(RouteCollection routes, Action<IIocContainerRegistrar> registrations = null, params Assembly[] controllerAssemblies)
         {
             IIocContainer iocContainer = new Common.Ioc.Container.IocContainer();
@@ -27,7 +64,7 @@
             iocContainer.RegisterSingleInstance(x => routes);
             iocContainer.RegisterSingleInstance(x => PageContextScope.CurrentPageContext);
 
-            FindClassesOfType(typeof(IController), new[] { Assembly.GetExecutingAssembly() }.Union(controllerAssemblies))
+            Utils.AssemblyUtils.FindClassesOfType(typeof(IController), new[] { Assembly.GetExecutingAssembly() }.Union(controllerAssemblies))
                 .ForEach(x => iocContainer.RegisterInstanceNamed(typeof(IController), x, GetControllerName(x.Name)));
 
             if (registrations != null)
@@ -40,59 +77,14 @@
             return iocContainer.GetInstance<ICmsApplication>();
         }
 
+        /// <summary>
+        /// Gets the name of the controller by removing the "Controller" word.
+        /// </summary>
+        /// <param name="controllerTypeName">Name of the controller type.</param>
+        /// <returns>The controller name.</returns>
         private static string GetControllerName(string controllerTypeName)
         {
             return controllerTypeName.Length > 10 ? string.Concat(StringUtils.Left(controllerTypeName, controllerTypeName.Length - 10), StringUtils.Right(controllerTypeName, 10).Replace("Controller", string.Empty)) : controllerTypeName;
-        }
-
-        private static IEnumerable<Type> FindClassesOfType(Type assignTypeFrom, IEnumerable<Assembly> assemblies, bool onlyConcreteClasses = true)
-        {
-            List<Type> result = new List<Type>();
-            foreach (Assembly assembly in assemblies)
-            {
-                Type[] types = assembly.GetTypes();
-                for (int i = 0; i < types.Length; i++)
-                {
-                    Type type = types[i];
-                    if (assignTypeFrom.IsAssignableFrom(type) || (assignTypeFrom.IsGenericTypeDefinition && DoesTypeImplementOpenGeneric(type, assignTypeFrom)))
-                    {
-                        if (!type.IsInterface)
-                        {
-                            if (onlyConcreteClasses)
-                            {
-                                if (type.IsClass && !type.IsAbstract)
-                                {
-                                    result.Add(type);
-                                }
-                            }
-                            else
-                            {
-                                result.Add(type);
-                            }
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        private static bool DoesTypeImplementOpenGeneric(Type type, Type openGeneric)
-        {
-            Type genericTypeDefinition = openGeneric.GetGenericTypeDefinition();
-            Type[] implementedInterfaces = type.FindInterfaces((objType, objCriteria) => true, null);
-            for (int i = 0; i < implementedInterfaces.Length; i++)
-            {
-                Type implementedInterface = implementedInterfaces[i];
-                if (!implementedInterface.IsGenericType)
-                {
-                    continue;
-                }
-
-                return genericTypeDefinition.IsAssignableFrom(implementedInterface.GetGenericTypeDefinition());
-            }
-
-            return false;
         }
     }
 }
