@@ -31,6 +31,8 @@ namespace Labo.Cms.Core.Mvc
     using System.Globalization;
     using System.Web.Mvc;
 
+    using Labo.Cms.Core.Models;
+
     /// <summary>
     /// The labo mvc view result class.
     /// </summary>
@@ -45,11 +47,13 @@ namespace Labo.Cms.Core.Mvc
         /// Initializes a new instance of the <see cref="LaboMvcViewResult"/> class.
         /// </summary>
         /// <param name="controllerContext">The controller context.</param>
+        /// <param name="screen">The screen model.</param>
         /// <param name="templateName">Name of the template.</param>
-        public LaboMvcViewResult(ControllerContext controllerContext, string templateName)
+        public LaboMvcViewResult(ControllerContext controllerContext, Page screen, string templateName)
         {
             View = new RazorView(controllerContext, string.Format(CultureInfo.InvariantCulture, "~/Views/Layouts/{0}.cshtml", templateName), string.Empty, false, null);
-            m_ViewEngine = new RazorViewEngine();
+            ViewData.Model = screen;
+            m_ViewEngine = new LaboRazorViewEngine();
         }
 
         /// <summary>

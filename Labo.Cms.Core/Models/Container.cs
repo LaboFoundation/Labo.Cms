@@ -48,5 +48,29 @@ namespace Labo.Cms.Core.Models
         /// The view.
         /// </value>
         public View View { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the title.
+        /// </summary>
+        /// <value>
+        /// The title.
+        /// </value>
+        public string Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [show title].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [show title]; otherwise, <c>false</c>.
+        /// </value>
+        public bool ShowTitle { get; set; }
     }
 }

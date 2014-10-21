@@ -1,0 +1,36 @@
+﻿@using Labo.Cms.Core.Models
+@using Labo.Cms.Core.Mvc
+@model Labo.Cms.Core.Models.Page
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@Model.Name</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="col-lg-12 col-md-12">
+        @Model.Name
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        @{
+            Pane pane = Model.Layout.Panes.SingleOrDefault(x => x.Name == "LeftColumn");
+            IList<Container> containers = pane.Containers;
+            for (int i = 0; i < containers.Count; i++)
+            {
+                Container container = containers[i];
+                @(new ContainerViewRenderer(ViewContext.Controller.ControllerContext, ViewData, TempData).Render(container))
+            }
+        }      
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        @Model.Layout.Panes.SingleOrDefault(x => x.Name == "RightColumn")   
+    </div>
+</body>
+</html>

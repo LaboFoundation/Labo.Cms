@@ -41,7 +41,7 @@
                         Route =
                             new Route(
                             "{*PageUrl}",
-                            new RouteValueDictionary { { "controller", "Home" }, { "action", "Index" } },
+                            new RouteValueDictionary { { "controller", "Page" }, { "action", "Index" } },
                             new MvcRouteHandler())
                     });
             s_CmsApplication.Initialize();

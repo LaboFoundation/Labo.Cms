@@ -46,6 +46,16 @@ namespace Labo.Cms.Core.Utils
         /// <returns>The found types.</returns>
         public static IEnumerable<Type> FindClassesOfType(Type assignTypeFrom, IEnumerable<Assembly> assemblies, bool onlyConcreteClasses = true)
         {
+            if (assignTypeFrom == null)
+            {
+                throw new ArgumentNullException("assignTypeFrom");
+            }
+
+            if (assemblies == null)
+            {
+                throw new ArgumentNullException("assemblies");
+            }
+
             IList<Type> result = new List<Type>();
             foreach (Assembly assembly in assemblies)
             {
@@ -84,6 +94,16 @@ namespace Labo.Cms.Core.Utils
         /// <returns><c>true</c> if the specified type is open generic, otherwise <c>false</c>.</returns>
         public static bool DoesTypeImplementOpenGeneric(Type type, Type openGeneric)
         {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
+            if (openGeneric == null)
+            {
+                throw new ArgumentNullException("openGeneric");
+            }
+
             Type genericTypeDefinition = openGeneric.GetGenericTypeDefinition();
             Type[] implementedInterfaces = type.FindInterfaces((objType, objCriteria) => true, null);
             for (int i = 0; i < implementedInterfaces.Length; i++)

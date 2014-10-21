@@ -48,7 +48,7 @@ namespace Labo.Cms.Core.Mvc
             m_TempData = tempData;
         }
 
-        public void Render(View view)
+        public string Render(View view)
         {
             if (view == null)
             {
@@ -62,6 +62,8 @@ namespace Labo.Cms.Core.Mvc
                 ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(m_ControllerContext, viewName);
                 ViewContext viewContext = new ViewContext(m_ControllerContext, viewResult.View, m_ViewData, m_TempData, sw);
                 viewResult.View.Render(viewContext, sw);
+
+                return sw.GetStringBuilder().ToString();
             }
         }
     }

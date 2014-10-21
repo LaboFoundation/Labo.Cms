@@ -44,6 +44,12 @@ namespace Labo.Cms.Core.Mvc
 
         public void Render(Page screen)
         {
+            ViewResult viewResult = GetViewResult(screen);
+            viewResult.ExecuteResult(m_ControllerContext);
+        }
+
+        public ViewResult GetViewResult(Page screen)
+        {
             if (screen == null)
             {
                 throw new ArgumentNullException("screen");
@@ -52,7 +58,7 @@ namespace Labo.Cms.Core.Mvc
             Layout layout = screen.Layout;
             string layoutName = layout.Name;
 
-            new LaboMvcViewResult(m_ControllerContext, layoutName).ExecuteResult(m_ControllerContext);
+            return new LaboMvcViewResult(m_ControllerContext, screen, layoutName);
         }
     }
 }
