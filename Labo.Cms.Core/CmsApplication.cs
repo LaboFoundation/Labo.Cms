@@ -29,6 +29,7 @@
 namespace Labo.Cms.Core
 {
     using System;
+    using System.Web;
 
     using Labo.Cms.Core.Routing;
     using Labo.Cms.Core.Services;
@@ -118,6 +119,61 @@ namespace Labo.Cms.Core
             RegisterRouteProviders();
 
             m_RouteManager.InstallRoutes();
+        }
+
+        /// <summary>
+        /// Called when the application starts.
+        /// </summary>
+        /// <param name="application">The application.</param>
+        public void OnApplicationStart(HttpApplication application)
+        {
+        }
+
+        /// <summary>
+        /// Called when the application stops.
+        /// </summary>
+        /// <param name="application">The application.</param>
+        public void OnApplicationEnd(HttpApplication application)
+        {
+        }
+
+        /// <summary>
+        /// Called when the application throws unhandled error.
+        /// </summary>
+        /// <param name="application">The application.</param>
+        public void OnApplicationError(HttpApplication application)
+        {
+        }
+
+        /// <summary>
+        /// Called when the application begins an http request.
+        /// </summary>
+        /// <param name="application">The host application.</param>
+        public void OnBeginRequest(HttpApplication application)
+        {
+        }
+
+        /// <summary>
+        /// Called when the application ends an http request.
+        /// </summary>
+        /// <param name="application">The application.</param>
+        public void OnEndRequest(HttpApplication application)
+        {
+        }
+
+        /// <summary>
+        /// Called when the application authenticates an http request.
+        /// </summary>
+        /// <param name="application">The application.</param>
+        public void OnAuthenticateRequest(HttpApplication application)
+        {
+        }
+
+        /// <summary>
+        /// Method to restarts the host application domain.
+        /// </summary>
+        public void RestartApplicationHost()
+        {
         }
 
         /// <summary>

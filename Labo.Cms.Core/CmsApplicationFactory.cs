@@ -29,6 +29,7 @@
 namespace Labo.Cms.Core
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Web.Mvc;
@@ -64,8 +65,7 @@ namespace Labo.Cms.Core
             iocContainer.RegisterSingleInstance(x => routes);
             iocContainer.RegisterSingleInstance(x => PageContextScope.CurrentPageContext);
 
-            Utils.AssemblyUtils.FindClassesOfType(typeof(IController), new[] { Assembly.GetExecutingAssembly() }.Union(controllerAssemblies))
-                .ForEach(x => iocContainer.RegisterInstanceNamed(typeof(IController), x, GetControllerName(x.Name)));
+            RegisterControllers(controllerAssemblies, iocContainer);
 
             if (registrations != null)
             {
@@ -75,6 +75,19 @@ namespace Labo.Cms.Core
             ControllerBuilder.Current.SetControllerFactory(new LaboCmsControllerFactory(iocContainer));
 
             return iocContainer.GetInstance<ICmsApplication>();
+        }
+
+        /// <summary>
+        /// Registers the controllers.
+        /// </summary>
+        /// <param name="controllerAssemblies">The controller assemblies.</param>
+        /// <param name="iocContainerRegistrar">The ioc container registrar.</param>
+        private static void RegisterControllers(IEnumerable<Assembly> controllerAssemblies, IIocContainerRegistrar iocContainerRegistrar)
+        {
+            Utils.AssemblyUtils.FindClassesOfType(
+                typeof(IController),
+                new[] { Assembly.GetExecutingAssembly() }.Union(controllerAssemblies))
+                .ForEach(x => iocContainerRegistrar.RegisterInstanceNamed(typeof(IController), x, GetControllerName(x.Name)));
         }
 
         /// <summary>

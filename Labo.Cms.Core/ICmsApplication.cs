@@ -28,6 +28,8 @@
 
 namespace Labo.Cms.Core
 {
+    using System.Web;
+
     using Labo.Cms.Core.Routing;
     using Labo.Cms.Core.Services;
 
@@ -64,5 +66,46 @@ namespace Labo.Cms.Core
         /// Initializes the cms application.
         /// </summary>
         void Initialize();
+
+        /// <summary>
+        /// Called when the application starts.
+        /// </summary>
+        /// <param name="application">The application.</param>
+        void OnApplicationStart(HttpApplication application);
+
+        /// <summary>
+        /// Called when the application stops.
+        /// </summary>
+        /// <param name="application">The application.</param>
+        void OnApplicationEnd(HttpApplication application);
+
+        /// <summary>
+        /// Called when the application throws unhandled error.
+        /// </summary>
+        /// <param name="application">The application.</param>
+        void OnApplicationError(HttpApplication application);
+
+        /// <summary>
+        /// Called when the application begins an http request.
+        /// </summary>
+        /// <param name="application">The host application.</param>
+        void OnBeginRequest(HttpApplication application);
+
+        /// <summary>
+        /// Called when the application ends an http request.
+        /// </summary>
+        /// <param name="application">The application.</param>
+        void OnEndRequest(HttpApplication application);
+
+        /// <summary>
+        /// Called when the application authenticates an http request.
+        /// </summary>
+        /// <param name="application">The application.</param>
+        void OnAuthenticateRequest(HttpApplication application);
+
+        /// <summary>
+        /// Method to restarts the host application domain.
+        /// </summary>
+        void RestartApplicationHost();
     }
 }

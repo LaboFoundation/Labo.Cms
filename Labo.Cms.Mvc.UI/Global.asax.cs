@@ -1,5 +1,6 @@
 ﻿namespace Labo.Cms.Mvc.UI
 {
+    using System;
     using System.Reflection;
     using System.Web;
     using System.Web.Http;
@@ -14,8 +15,14 @@
     // visit http://go.microsoft.com/?LinkId=9394801
     public class MvcApplication : HttpApplication
     {
+        /// <summary>
+        /// The CMS application
+        /// </summary>
         private static ICmsApplication s_CmsApplication;
 
+        /// <summary>
+        /// Handles the ApplicationStart event of the Application.
+        /// </summary>
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -38,6 +45,48 @@
                             new MvcRouteHandler())
                     });
             s_CmsApplication.Initialize();
+        }
+
+        /// <summary>
+        /// Handles the ApplicationBeginRequest event of the Application.
+        /// </summary>
+        protected void Application_BeginRequest()
+        {
+            s_CmsApplication.OnBeginRequest(this);
+        }
+
+        /// <summary>
+        /// Handles the ApplicationEndRequest event of the Application.
+        /// </summary>
+        protected void Application_EndRequest()
+        {
+            s_CmsApplication.OnEndRequest(this);
+        }
+
+        /// <summary>
+        /// Handles the ApplicationError event of the Application.
+        /// </summary>
+        protected void Application_Error()
+        {
+            s_CmsApplication.OnApplicationError(this);
+        }
+
+        /// <summary>
+        /// Handles the ApplicationEnd event of the Application.
+        /// </summary>
+        protected void Application_End()
+        {
+            s_CmsApplication.OnApplicationEnd(this);
+        }
+
+        /// <summary>
+        /// Handles the AuthenticateRequest event of the Application.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+        protected void Application_AuthenticateRequest(object sender, EventArgs e)
+        {
+            s_CmsApplication.OnAuthenticateRequest(this);
         }
     }
 }
