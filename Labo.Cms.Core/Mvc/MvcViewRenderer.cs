@@ -60,7 +60,7 @@ namespace Labo.Cms.Core.Mvc
             using (StringWriter sw = new StringWriter(CultureInfo.CurrentCulture))
             {
                 ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(m_ControllerContext, viewName);
-                ViewContext viewContext = new ViewContext(m_ControllerContext, viewResult.View, m_ViewData, m_TempData, sw);
+                ViewContext viewContext = new ViewContext(m_ControllerContext, viewResult.View, new ViewDataDictionary(view), m_TempData, sw);
                 viewResult.View.Render(viewContext, sw);
 
                 return sw.GetStringBuilder().ToString();

@@ -29,6 +29,7 @@
 namespace Labo.Cms.Core.Mvc
 {
     using System;
+    using System.Globalization;
     using System.Web.Mvc;
     using System.Web.Routing;
 
@@ -62,7 +63,18 @@ namespace Labo.Cms.Core.Mvc
         /// <param name="requestContext">The context of the HTTP request, which includes the HTTP context and route data.</param><param name="controllerName">The name of the controller.</param><exception cref="T:System.ArgumentNullException">The <paramref name="requestContext"/> parameter is null.</exception><exception cref="T:System.ArgumentException">The <paramref name="controllerName"/> parameter is null or empty.</exception>
         public override IController CreateController(RequestContext requestContext, string controllerName)
         {
-            IController controller = m_IocContainerResolver.GetInstanceOptionalByName<IController>(controllerName);
+            if (requestContext == null)
+            {
+                throw new ArgumentNullException("requestContext");
+            }
+
+            if (controllerName == null)
+            {
+                throw new ArgumentNullException("controllerName");
+            }
+
+            string moduleName = Convert.ToString(requestContext.RouteData.Values["module"], CultureInfo.InvariantCulture);
+            IController controller = m_IocContainerResolver.GetInstanceOptionalByName<IController>(string.IsNullOrWhiteSpace(moduleName) ? controllerName : string.Format(CultureInfo.InvariantCulture, "{0}-{1}", moduleName, controllerName));
             return controller ?? base.CreateController(requestContext, controllerName);
         }
 

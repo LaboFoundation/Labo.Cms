@@ -35,10 +35,13 @@ namespace Labo.Cms.Core
     using System.Web.Mvc;
     using System.Web.Routing;
 
+    using Labo.Cms.Core.Module;
     using Labo.Cms.Core.Mvc;
+    using Labo.Cms.Core.Mvc.EmbeddedViews;
     using Labo.Cms.Core.Routing;
     using Labo.Cms.Core.Services;
     using Labo.Common.Ioc;
+    using Labo.Common.Reflection;
     using Labo.Common.Utils;
 
     /// <summary>
@@ -61,9 +64,11 @@ namespace Labo.Cms.Core
             iocContainer.RegisterSingleInstance<IRouteManager, DefaultRouteManager>();
             iocContainer.RegisterSingleInstance<IRouteProviderManager, DefaultRouteProviderManager>();
             iocContainer.RegisterSingleInstance<IPageContextScopeManager, DefaultPageContextScopeManager>();
+            iocContainer.RegisterSingleInstance<IEmbeddedViewResolver, DefaultEmbeddedViewResolver>();
             iocContainer.RegisterSingleInstance<ICmsApplication, CmsApplication>();
             iocContainer.RegisterSingleInstance(x => routes);
             iocContainer.RegisterSingleInstance(x => PageContextScope.CurrentPageContext);
+            iocContainer.RegisterSingleInstance(x => iocContainer);
 
             RegisterControllers(controllerAssemblies, iocContainer);
 

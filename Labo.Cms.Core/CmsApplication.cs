@@ -30,10 +30,15 @@ namespace Labo.Cms.Core
 {
     using System;
     using System.Web;
+    using System.Web.Hosting;
+    using System.Web.Mvc;
 
+    using Labo.Cms.Core.Module;
+    using Labo.Cms.Core.Mvc.EmbeddedViews;
     using Labo.Cms.Core.Routing;
     using Labo.Cms.Core.Services;
     using Labo.Cms.Core.Utils;
+    using Labo.Common.Ioc;
     using Labo.Common.Reflection;
 
     /// <summary>
@@ -55,6 +60,10 @@ namespace Labo.Cms.Core
         /// The route provider manager
         /// </summary>
         private readonly IRouteProviderManager m_RouteProviderManager;
+
+        private readonly IEmbeddedViewResolver m_EmbeddedViewResolver;
+
+        private readonly IIocContainer m_IocContainer;
 
         /// <summary>
         /// Gets the route manager.
@@ -104,11 +113,15 @@ namespace Labo.Cms.Core
         /// <param name="cmsService">The CMS service.</param>
         /// <param name="routeManager">The route manager.</param>
         /// <param name="routeProviderManager">The route provider manager.</param>
-        public CmsApplication(ICmsService cmsService, IRouteManager routeManager, IRouteProviderManager routeProviderManager)
+        /// <param name="embeddedViewResolver">The embedded view resolver.</param>
+        /// <param name="iocContainer">The ioc container.</param>
+        public CmsApplication(ICmsService cmsService, IRouteManager routeManager, IRouteProviderManager routeProviderManager, IEmbeddedViewResolver embeddedViewResolver, IIocContainer iocContainer)
         {
             m_CmsService = cmsService;
             m_RouteManager = routeManager;
             m_RouteProviderManager = routeProviderManager;
+            m_EmbeddedViewResolver = embeddedViewResolver;
+            m_IocContainer = iocContainer;
         }
 
         /// <summary>
@@ -118,7 +131,14 @@ namespace Labo.Cms.Core
         {
             RegisterRouteProviders();
 
+            RegisterModules();
+
             m_RouteManager.InstallRoutes();
+
+            EmbeddedViewVirtualPathProvider embeddedProvider = new EmbeddedViewVirtualPathProvider(m_EmbeddedViewResolver.GetEmbeddedViews());
+            HostingEnvironment.RegisterVirtualPathProvider(embeddedProvider);
+
+            MvcHandler.DisableMvcResponseHeader = true;
         }
 
         /// <summary>
@@ -183,6 +203,20 @@ namespace Labo.Cms.Core
         {
             AssemblyUtils.FindClassesOfType(typeof(IRouteProvider), AppDomain.CurrentDomain.GetAssemblies())
                 .ForEach(x => m_RouteProviderManager.RegisterRouteProvider((IRouteProvider)DynamicMethodHelper.EmitConstructorInvoker(x)()));
+        }
+
+        /// <summary>
+        /// Registers the modules.
+        /// </summary>
+        private void RegisterModules()
+        {
+            AssemblyUtils.FindClassesOfType(typeof(IModuleRegistration), AppDomain.CurrentDomain.GetAssemblies())
+                .ForEach(
+                    x =>
+                    {
+                        IModuleRegistration moduleRegistration = (IModuleRegistration)Activator.CreateInstance(x);
+                        moduleRegistration.RegisterModule(m_RouteManager, m_IocContainer);
+                    });
         }
     }
 }

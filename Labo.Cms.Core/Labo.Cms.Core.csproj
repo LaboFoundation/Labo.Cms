@@ -62,6 +62,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,7 +76,16 @@
     <Compile Include="ICmsApplication.cs" />
     <Compile Include="IPageContextScope.cs" />
     <Compile Include="IPageContextScopeManager.cs" />
+    <Compile Include="Module\BaseModuleRegistration.cs" />
+    <Compile Include="Module\IModuleRegistration.cs" />
+    <Compile Include="Module\ModuleRouteRegistrationContext.cs" />
     <Compile Include="Mvc\ContainerViewRenderer.cs" />
+    <Compile Include="Mvc\EmbeddedViews\EmbeddedResourceVirtualFile.cs" />
+    <Compile Include="Mvc\EmbeddedViews\EmbeddedViewMetadata.cs" />
+    <Compile Include="Mvc\EmbeddedViews\DefaultEmbeddedViewResolver.cs" />
+    <Compile Include="Mvc\EmbeddedViews\EmbeddedViewTable.cs" />
+    <Compile Include="Mvc\EmbeddedViews\EmbeddedViewVirtualPathProvider.cs" />
+    <Compile Include="Mvc\EmbeddedViews\IEmbeddedViewResolver.cs" />
     <Compile Include="Mvc\LaboCmsControllerFactory.cs" />
     <Compile Include="Mvc\LaboCmsModuleControllerActionInvoker.cs" />
     <Compile Include="Mvc\LaboMvcViewResult.cs" />
@@ -83,6 +93,8 @@
     <Compile Include="Mvc\ModuleExecutor.cs" />
     <Compile Include="Mvc\MvcScreenRenderer.cs" />
     <Compile Include="Mvc\MvcViewRenderer.cs" />
+    <Compile Include="Mvc\PaneRenderer.cs" />
+    <Compile Include="Mvc\WebViewPageExtensions.cs" />
     <Compile Include="PageContext.cs" />
     <Compile Include="IPageContext.cs" />
     <Compile Include="Models\Site.cs" />
@@ -101,6 +113,7 @@
     <Compile Include="Routing\IRouteProviderManager.cs" />
     <Compile Include="HttpHandlers\LaboCmsHttpHandler.cs" />
     <Compile Include="Routing\IRouteRegistrar.cs" />
+    <Compile Include="Routing\LaboCmsModuleRoute.cs" />
     <Compile Include="Routing\LaboCmsRoute.cs" />
     <Compile Include="Routing\LaboCmsRouteHandler.cs" />
     <Compile Include="Routing\RouteInfo.cs" />
@@ -115,9 +128,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Module\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -52,26 +52,26 @@ namespace Labo.Cms.Core.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// The containers
+        /// The views
         /// </summary>
-        private IList<Container> m_Containers;
+        private IList<View> m_Views;
 
         /// <summary>
-        /// Gets or sets the containers.
+        /// Gets or sets the views.
         /// </summary>
         /// <value>
-        /// The containers.
+        /// The views.
         /// </value>
-        public IList<Container> Containers
+        public IList<View> Views
         {
             get
             {
-                return m_Containers ?? (m_Containers = new List<Container>());
+                return m_Views ?? (m_Views = new List<View>());
             }
 
             set
             {
-                m_Containers = value;
+                m_Views = value;
             }
         }
     }

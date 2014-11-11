@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="View.cs" company="Labo">
+// <copyright file="IModuleRegistration.cs" company="Labo">
 //   The MIT License (MIT)
 //   
 //   Copyright (c) 2014 Bora Akgun
@@ -22,65 +22,19 @@
 //   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 // <summary>
-//   Defines the View type.
+//   Defines the IModuleRegistration type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Labo.Cms.Core.Models
+namespace Labo.Cms.Core.Module
 {
-    using System.Collections.Generic;
+    using Labo.Cms.Core.Routing;
+    using Labo.Common.Ioc;
 
-    /// <summary>
-    /// The view class.
-    /// </summary>
-    public sealed class View
+    public interface IModuleRegistration
     {
-        /// <summary>
-        /// The parameters
-        /// </summary>
-        private List<Parameter> m_Parameters;
+        string ModuleName { get; }
 
-        /// <summary>
-        /// Gets or sets the id.
-        /// </summary>
-        /// <value>
-        /// The id.
-        /// </value>
-        public int Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the container.
-        /// </summary>
-        /// <value>
-        /// The container.
-        /// </value>
-        public Container Container { get; set; }
-
-        /// <summary>
-        /// Gets or sets the parameters.
-        /// </summary>
-        /// <value>
-        /// The parameters.
-        /// </value>
-        public List<Parameter> Parameters
-        {
-            get
-            {
-                return m_Parameters ?? (m_Parameters = new List<Parameter>());
-            }
-
-            set
-            {
-                m_Parameters = value;
-            }
-        }
+        void RegisterModule(IRouteRegistrar routeRegistrar, IIocContainerRegistrar iocContainerRegistrar);
     }
 }

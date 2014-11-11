@@ -9,31 +9,26 @@ namespace Labo.Cms.Core.Mvc
 
     public sealed class ContainerViewRenderer
     {
-        private readonly ControllerContext m_ControllerContext;
-        private readonly ViewDataDictionary m_ViewData;
-        private readonly TempDataDictionary m_TempData;
-
-        public ContainerViewRenderer(ControllerContext controllerContext, ViewDataDictionary viewData, TempDataDictionary tempData)
+        public static string Render(ControllerContext controllerContext, View view)
         {
-            m_ControllerContext = controllerContext;
-            m_ViewData = viewData;
-            m_TempData = tempData;
-        }
+            if (view == null)
+            {
+                throw new ArgumentNullException("view");
+            }
 
-        public string Render(Container container)
-        {
+            Container container = view.Container;
             if (container == null)
             {
-                throw new ArgumentNullException("container");
+                throw new NullReferenceException("view.Container");
             }
 
             string viewName = container.Name;
 
             using (StringWriter sw = new StringWriter(CultureInfo.CurrentCulture))
             {
-                RazorView view = new RazorView(m_ControllerContext, string.Format(CultureInfo.InvariantCulture, "~/Views/Containers/{0}.cshtml", viewName), string.Empty, false, null);
-                ViewContext viewContext = new ViewContext(m_ControllerContext, view, new ViewDataDictionary(container), m_TempData, sw);
-                view.Render(viewContext, sw);
+                RazorView razorView = new RazorView(controllerContext, string.Format(CultureInfo.InvariantCulture, "~/Views/Containers/{0}.cshtml", viewName), string.Empty, false, null);
+                ViewContext viewContext = new ViewContext(controllerContext, razorView, new ViewDataDictionary(view), new TempDataDictionary(), sw);
+                razorView.Render(viewContext, sw);
 
                 return sw.GetStringBuilder().ToString();
             }

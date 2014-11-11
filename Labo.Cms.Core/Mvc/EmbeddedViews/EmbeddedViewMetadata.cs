@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="View.cs" company="Labo">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EmbeddedViewMetadata.cs" company="Labo">
 //   The MIT License (MIT)
 //   
 //   Copyright (c) 2014 Bora Akgun
@@ -22,32 +22,20 @@
 //   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 // <summary>
-//   Defines the View type.
+//   Defines the EmbeddedViewMetadata type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Labo.Cms.Core.Models
+namespace Labo.Cms.Core.Mvc.EmbeddedViews
 {
-    using System.Collections.Generic;
+    using System;
 
     /// <summary>
-    /// The view class.
+    /// The embedded view metadata class.
     /// </summary>
-    public sealed class View
+    [Serializable]
+    public sealed class EmbeddedViewMetadata
     {
-        /// <summary>
-        /// The parameters
-        /// </summary>
-        private List<Parameter> m_Parameters;
-
-        /// <summary>
-        /// Gets or sets the id.
-        /// </summary>
-        /// <value>
-        /// The id.
-        /// </value>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
@@ -57,30 +45,19 @@ namespace Labo.Cms.Core.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the container.
+        /// Gets or sets the full name of the assembly.
         /// </summary>
         /// <value>
-        /// The container.
+        /// The full name of the assembly.
         /// </value>
-        public Container Container { get; set; }
+        public string AssemblyFullName { get; set; }
 
         /// <summary>
-        /// Gets or sets the parameters.
+        /// Gets or sets the assembly location.
         /// </summary>
         /// <value>
-        /// The parameters.
+        /// The assembly location.
         /// </value>
-        public List<Parameter> Parameters
-        {
-            get
-            {
-                return m_Parameters ?? (m_Parameters = new List<Parameter>());
-            }
-
-            set
-            {
-                m_Parameters = value;
-            }
-        }
+        public string AssemblyLocation { get; set; }
     }
 }

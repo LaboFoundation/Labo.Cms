@@ -1,5 +1,6 @@
-﻿@model Labo.Cms.Core.Models.Container
+﻿@using Labo.Cms.Core.Mvc
+@model Labo.Cms.Core.Models.View
 @{
     Layout = null;
 }
-@Model.View.Name
+@(new MvcViewRenderer(ViewContext.Controller.ControllerContext, ViewData, TempData).Render(Model))

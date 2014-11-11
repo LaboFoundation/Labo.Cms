@@ -138,7 +138,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -152,12 +154,19 @@
       <Project>{7fd78391-d9c2-4cf7-b8cd-6409fd3c660b}</Project>
       <Name>Labo.Cms.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Labo.Cms.Modules.Root\Labo.Cms.Modules.Root.csproj">
+      <Project>{eb4c16b1-9fd0-4dca-b115-354605709f81}</Project>
+      <Name>Labo.Cms.Modules.Root</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Layouts\TwoColumns.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Containers\Simple.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Page\View.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

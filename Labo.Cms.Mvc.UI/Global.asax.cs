@@ -36,7 +36,7 @@
                 new RouteInfo
                     {
                         Name = "page",
-                        Priority = 1000,
+                        Priority = 100000,
                         SessionState = SessionStateBehavior.Disabled,
                         Route =
                             new Route(
@@ -45,6 +45,7 @@
                             new MvcRouteHandler())
                     });
             s_CmsApplication.Initialize();
+            s_CmsApplication.OnApplicationStart(this);
         }
 
         /// <summary>

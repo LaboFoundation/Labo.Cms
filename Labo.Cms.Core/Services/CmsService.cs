@@ -21,14 +21,14 @@
                                                    new Pane 
                                                    {
                                                        Name = "LeftColumn", 
-                                                       Containers = new List<Container>
+                                                       Views = new List<View>
                                                                         {
-                                                                            new Container
+                                                                            new View
                                                                                 {
-                                                                                    Name = "Simple",
-                                                                                    View = new View
+                                                                                    Name = "View",
+                                                                                    Container = new Container
                                                                                                {
-                                                                                                   Name = "View"
+                                                                                                   Name = "Simple"
                                                                                                }
                                                                                 }
                                                                         }
@@ -36,17 +36,17 @@
                                                    new Pane
                                                        {
                                                            Name = "RightColumn", 
-                                                           Containers = new List<Container>
-                                                                            {
-                                                                                new Container
-                                                                                    {
-                                                                                        Name = "Simple",
-                                                                                        View = new View
+                                                           Views = new List<View>
+                                                                        {
+                                                                            new View
+                                                                                {
+                                                                                    Name = "View",
+                                                                                    Container = new Container
                                                                                                {
-                                                                                                   Name = "View"
+                                                                                                   Name = "Simple"
                                                                                                }
-                                                                                    }
-                                                                            }
+                                                                                }
+                                                                        }
                                                        }
                                                }
                                    }

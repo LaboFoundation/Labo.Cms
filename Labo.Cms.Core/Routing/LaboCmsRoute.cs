@@ -36,7 +36,7 @@ namespace Labo.Cms.Core.Routing
     /// <summary>
     /// The labo cms route class.
     /// </summary>
-    public sealed class LaboCmsRoute : RouteBase
+    public class LaboCmsRoute : RouteBase
     {
         /// <summary>
         /// Gets the route base instance
@@ -135,9 +135,7 @@ namespace Labo.Cms.Core.Routing
         /// <param name="requestContext">An object that encapsulates information about the requested route.</param><param name="values">An object that contains the parameters for a route.</param>
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
-            RequestContext effectiveRequestContext = requestContext;
-            VirtualPathData virtualPath = m_Route.GetVirtualPath(effectiveRequestContext, values);
-            return virtualPath;
+            return m_Route.GetVirtualPath(requestContext, values);
         }
     }
 }
