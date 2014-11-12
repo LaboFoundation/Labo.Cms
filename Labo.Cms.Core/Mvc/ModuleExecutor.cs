@@ -50,13 +50,18 @@ namespace Labo.Cms.Core.Mvc
             string actionName = controllerContext.RouteData.GetRequiredString("action");
             string moduleName = controllerContext.RouteData.GetRequiredString("module");
 
+            return InvokeAction(controllerContext, controllerName, moduleName, actionName);
+        }
+
+        public static ActionResult InvokeAction(ControllerContext controllerContext, string moduleName, string controllerName, string actionName)
+        {
             IControllerFactory controllerFactory = ControllerBuilder.Current.GetControllerFactory();
             IController controller = null;
 
             try
             {
                 controller = controllerFactory.CreateController(controllerContext.RequestContext, controllerName);
-                
+
                 if (controller == null)
                 {
                     throw new CoreLevelException(string.Format(CultureInfo.CurrentCulture, "The module '{0}' controller for path does not found or does not implement IController.", moduleName));
@@ -70,9 +75,9 @@ namespace Labo.Cms.Core.Mvc
 
                 return result;
             }
-            finally 
+            finally
             {
-               controllerFactory.ReleaseController(controller);
+                controllerFactory.ReleaseController(controller);
             }
         }
 

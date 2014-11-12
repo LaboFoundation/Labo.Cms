@@ -47,9 +47,9 @@ namespace Labo.Cms.Core.Mvc
         public LaboRazorViewEngine(IViewPageActivator viewPageActivator)
             : base(viewPageActivator)
         {
-            ViewLocationFormats = new[] { "Views/{1}/{0}.cshtml", };
-            MasterLocationFormats = new[] { "Views/{1}/{0}.cshtml" };
-            PartialViewLocationFormats = new[] { "Views/{1}/{0}.cshtml" };
+            ViewLocationFormats = new[] { "~/Views/{1}/{0}.cshtml" };
+            MasterLocationFormats = new[] { "~/Views/{1}/{0}.cshtml" };
+            PartialViewLocationFormats = new[] { "~/Views/{1}/{0}.cshtml" };
             FileExtensions = new[] { "cshtml" };
         }
 

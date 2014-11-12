@@ -30,7 +30,15 @@
                                                                                                {
                                                                                                    Name = "Simple"
                                                                                                }
-                                                                                }
+                                                                                },
+                                                                                new View
+                                                                                    {
+                                                                                        Name = "Labo.Cms.Modules.Root.Views.ContactUs.Index",
+                                                                                        Container = new Container
+                                                                                                        {
+                                                                                                            Name = "Simple"
+                                                                                                        }
+                                                                                    }
                                                                         }
                                                    },
                                                    new Pane

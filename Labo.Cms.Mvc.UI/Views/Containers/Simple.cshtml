@@ -3,4 +3,8 @@
 @{
     Layout = null;
 }
-@(new MvcViewRenderer(ViewContext.Controller.ControllerContext, ViewData, TempData).Render(Model))
+@if (Model.Container.ShowTitle)
+{
+  <p>@Model.Container.Title</p>
+}
+@{ this.RenderView(Model); }

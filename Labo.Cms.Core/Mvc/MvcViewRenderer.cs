@@ -55,10 +55,10 @@ namespace Labo.Cms.Core.Mvc
                 throw new ArgumentNullException("view");
             }
 
-            string viewName = view.Name;
-
             using (StringWriter sw = new StringWriter(CultureInfo.CurrentCulture))
             {
+                string viewName = view.Name;
+
                 ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(m_ControllerContext, viewName);
                 ViewContext viewContext = new ViewContext(m_ControllerContext, viewResult.View, new ViewDataDictionary(view), m_TempData, sw);
                 viewResult.View.Render(viewContext, sw);

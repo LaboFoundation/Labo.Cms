@@ -34,6 +34,7 @@ namespace Labo.Cms.Core
     using System.Web.Mvc;
 
     using Labo.Cms.Core.Module;
+    using Labo.Cms.Core.Mvc;
     using Labo.Cms.Core.Mvc.EmbeddedViews;
     using Labo.Cms.Core.Routing;
     using Labo.Cms.Core.Services;
@@ -139,6 +140,9 @@ namespace Labo.Cms.Core
             HostingEnvironment.RegisterVirtualPathProvider(embeddedProvider);
 
             MvcHandler.DisableMvcResponseHeader = true;
+            
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new LaboRazorViewEngine());
         }
 
         /// <summary>

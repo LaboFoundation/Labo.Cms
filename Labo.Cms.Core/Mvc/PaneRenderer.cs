@@ -28,7 +28,7 @@ namespace Labo.Cms.Core.Mvc
             {
                 View view = views[i];
 
-                page.Write(view.Container != null
+                page.WriteLiteral(view.Container != null
                            ? ContainerViewRenderer.Render(controllerContext, view)
                            : new MvcViewRenderer(controllerContext, viewData, tempData).Render(view));
             }

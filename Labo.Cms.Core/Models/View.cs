@@ -57,6 +57,22 @@ namespace Labo.Cms.Core.Models
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the module.
+        /// </summary>
+        /// <value>
+        /// The name of the module.
+        /// </value>
+        public string ModuleName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the controller.
+        /// </summary>
+        /// <value>
+        /// The name of the controller.
+        /// </value>
+        public string ControllerName { get; set; }
+
+        /// <summary>
         /// Gets or sets the container.
         /// </summary>
         /// <value>

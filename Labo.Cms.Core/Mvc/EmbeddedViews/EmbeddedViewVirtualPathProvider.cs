@@ -84,12 +84,9 @@ namespace Labo.Cms.Core.Mvc.EmbeddedViews
         /// <param name="virtualPath">The path to the virtual file.</param>
         public override VirtualFile GetFile(string virtualPath)
         {
-            if (IsEmbeddedView(virtualPath))
+            EmbeddedViewMetadata embeddedViewMetadata;
+            if (TryToGetEmbeddedView(virtualPath, out embeddedViewMetadata))
             {
-                string virtualPathAppRelative = VirtualPathUtility.ToAppRelative(virtualPath);
-                string fullyQualifiedViewName = GetFullyQualifiedViewName(virtualPathAppRelative);
-
-                EmbeddedViewMetadata embeddedViewMetadata = m_EmbeddedViews.FindEmbeddedView(fullyQualifiedViewName);
                 return new EmbeddedResourceVirtualFile(embeddedViewMetadata, virtualPath);
             }
 
@@ -129,8 +126,8 @@ namespace Labo.Cms.Core.Mvc.EmbeddedViews
         /// </returns>
         private bool IsEmbeddedView(string virtualPath)
         {
-            EmbeddedViewMetadata embeddedViewMetadata = GetEmbeddedView(virtualPath);
-            return embeddedViewMetadata != null;
+            EmbeddedViewMetadata embeddedViewMetadata;
+            return TryToGetEmbeddedView(virtualPath, out embeddedViewMetadata);
         }
 
         /// <summary>
@@ -140,20 +137,38 @@ namespace Labo.Cms.Core.Mvc.EmbeddedViews
         /// <returns>The embedded view meta data</returns>
         private EmbeddedViewMetadata GetEmbeddedView(string virtualPath)
         {
+            EmbeddedViewMetadata embeddedViewMetadata;
+            TryToGetEmbeddedView(virtualPath, out embeddedViewMetadata);
+            return embeddedViewMetadata;
+        }
+
+        /// <summary>
+        /// Tries to get embedded view.
+        /// </summary>
+        /// <param name="virtualPath">The virtual path.</param>
+        /// <param name="embeddedViewMetadata">The embedded view metadata.</param>
+        /// <returns>
+        /// <c>true</c> if [finds embedded view]; otherwise, <c>false</c>.
+        /// </returns>
+        private bool TryToGetEmbeddedView(string virtualPath, out EmbeddedViewMetadata embeddedViewMetadata)
+        {
             if (string.IsNullOrEmpty(virtualPath))
             {
-                return null;
+                embeddedViewMetadata = null;
+                return false;
             }
 
             string virtualPathAppRelative = VirtualPathUtility.ToAppRelative(virtualPath);
             if (!virtualPathAppRelative.StartsWith("~/Views/", StringComparison.OrdinalIgnoreCase))
             {
-                return null;
+                embeddedViewMetadata = null;
+                return false;
             }
 
             string fullyQualifiedViewName = GetFullyQualifiedViewName(virtualPathAppRelative);
 
-            return m_EmbeddedViews.FindEmbeddedView(fullyQualifiedViewName);
+            embeddedViewMetadata = m_EmbeddedViews.FindEmbeddedView(fullyQualifiedViewName);
+            return embeddedViewMetadata != null;
         }
     }
 }
