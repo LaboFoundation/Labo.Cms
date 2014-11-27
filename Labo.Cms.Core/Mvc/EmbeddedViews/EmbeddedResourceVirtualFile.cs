@@ -82,7 +82,7 @@ namespace Labo.Cms.Core.Mvc.EmbeddedViews
             for (int i = 0; i < assemblies.Length; i++)
             {
                 Assembly assembly = assemblies[i];
-                if (string.Equals(assembly.FullName, m_EmbeddedViewMetadata.AssemblyFullName, StringComparison.InvariantCultureIgnoreCase))
+                if (string.Equals(assembly.FullName, m_EmbeddedViewMetadata.AssemblyFullName, StringComparison.OrdinalIgnoreCase))
                 {
                     return assembly;
                 }

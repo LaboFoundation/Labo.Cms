@@ -37,6 +37,7 @@ namespace Labo.Cms.Core.Mvc.EmbeddedViews
         /// Gets the all embedded views by searching all assemblies.
         /// </summary>
         /// <returns>Embedded view table.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         EmbeddedViewTable GetEmbeddedViews();
     }
 }

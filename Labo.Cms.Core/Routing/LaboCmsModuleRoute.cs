@@ -28,8 +28,12 @@
 
 namespace Labo.Cms.Core.Routing
 {
+    using System;
     using System.Web.Routing;
 
+    /// <summary>
+    /// Labo cms module route class.
+    /// </summary>
     public sealed class LaboCmsModuleRoute : Route
     {
         /// <summary>
@@ -51,6 +55,7 @@ namespace Labo.Cms.Core.Routing
         /// <param name="moduleName">Name of the module.</param>
         /// <param name="url">The URL.</param>
         /// <param name="routeHandler">The route handler.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
         public LaboCmsModuleRoute(string moduleName, string url, IRouteHandler routeHandler)
             : base(url, routeHandler)
         {
@@ -64,6 +69,7 @@ namespace Labo.Cms.Core.Routing
         /// <param name="url">The URL.</param>
         /// <param name="defaults">The defaults.</param>
         /// <param name="routeHandler">The route handler.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
         public LaboCmsModuleRoute(string moduleName, string url, RouteValueDictionary defaults, IRouteHandler routeHandler)
             : base(url, defaults, routeHandler)
         {
@@ -78,6 +84,7 @@ namespace Labo.Cms.Core.Routing
         /// <param name="defaults">The defaults.</param>
         /// <param name="constraints">The constraints.</param>
         /// <param name="routeHandler">The route handler.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
         public LaboCmsModuleRoute(string moduleName, string url, RouteValueDictionary defaults, RouteValueDictionary constraints, IRouteHandler routeHandler)
             : base(url, defaults, constraints, routeHandler)
         {
@@ -93,6 +100,7 @@ namespace Labo.Cms.Core.Routing
         /// <param name="constraints">The constraints.</param>
         /// <param name="dataTokens">The data tokens.</param>
         /// <param name="routeHandler">The route handler.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
         public LaboCmsModuleRoute(string moduleName, string url, RouteValueDictionary defaults, RouteValueDictionary constraints, RouteValueDictionary dataTokens, IRouteHandler routeHandler)
             : base(url, defaults, constraints, dataTokens, routeHandler)
         {
@@ -109,6 +117,16 @@ namespace Labo.Cms.Core.Routing
         /// </returns>
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
+            if (requestContext == null)
+            {
+                throw new ArgumentNullException("requestContext");
+            }
+
+            if (values == null)
+            {
+                throw new ArgumentNullException("values");
+            }
+
             requestContext.RouteData.Values[MODULE_ROUTE_KEY] = ModuleName;
             return base.GetVirtualPath(requestContext, values);
         }

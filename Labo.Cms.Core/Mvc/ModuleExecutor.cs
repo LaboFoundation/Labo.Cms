@@ -55,6 +55,11 @@ namespace Labo.Cms.Core.Mvc
 
         public static ActionResult InvokeAction(ControllerContext controllerContext, string moduleName, string controllerName, string actionName)
         {
+            if (controllerContext == null)
+            {
+                throw new ArgumentNullException("controllerContext");
+            }
+
             IControllerFactory controllerFactory = ControllerBuilder.Current.GetControllerFactory();
             IController controller = null;
 

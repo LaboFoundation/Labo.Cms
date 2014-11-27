@@ -7,7 +7,7 @@ namespace Labo.Cms.Core.Mvc
 
     using Labo.Cms.Core.Models;
 
-    public sealed class ContainerViewRenderer
+    public static class ContainerViewRenderer
     {
         public static string Render(ControllerContext controllerContext, View view)
         {

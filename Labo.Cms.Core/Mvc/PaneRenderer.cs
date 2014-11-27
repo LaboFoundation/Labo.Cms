@@ -8,7 +8,7 @@ namespace Labo.Cms.Core.Mvc
 
     using Labo.Cms.Core.Models;
 
-    public sealed class PaneRenderer
+    public static class PaneRenderer
     {
         public static void Render(WebPageBase page, ControllerContext controllerContext, ViewDataDictionary viewData, TempDataDictionary tempData, IList<Pane> panes, string paneName)
         {

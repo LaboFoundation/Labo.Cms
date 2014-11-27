@@ -47,8 +47,19 @@ namespace Labo.Cms.Core.Module
             m_RouteRegistrar = routeRegistrar;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#")]
         public void RegisterRoute(string name, string url, RouteValueDictionary defaults, RouteValueDictionary constraints, int priority, SessionStateBehavior sessionState, Type controllerType, IRouteHandler routeHandler)
         {
+            if (controllerType == null)
+            {
+                throw new ArgumentNullException("controllerType");
+            }
+
+            if (defaults == null)
+            {
+                defaults = new RouteValueDictionary();
+            }
+
             defaults["module"] = m_ModuleName;
 
             string routeName = string.Format(CultureInfo.InvariantCulture, "{0}-{1}", m_ModuleName, name);
